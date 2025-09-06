@@ -33,6 +33,8 @@ export default function Index() {
   const [ai, setAi] = useState<AnalyzeResponse | null>(null);
   const [aiError, setAiError] = useState<string | null>(null);
   const [freeText, setFreeText] = useState("");
+  const phrases = ["Checking your habits…", "Measuring balance…", "Calculating score…"] as const;
+  const [phraseIndex, setPhraseIndex] = useState(0);
 
   const score = useMemo(() => {
     const total = HABITS.length;
@@ -73,6 +75,7 @@ export default function Index() {
 
   useEffect(() => {
     if (!loading) return;
+    setPhraseIndex(0);
     const start = performance.now();
     const duration = 2400; // 2.4s minimum analyzing time
     const tick = (t: number) => {
@@ -81,6 +84,10 @@ export default function Index() {
       if (p < 1) rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
+
+    const phraseTimer = setInterval(() => {
+      setPhraseIndex((i) => (i + 1) % phrases.length);
+    }, 800);
 
     // kick off AI call
     const selected = Object.keys(checked).filter((k) => checked[k]);
@@ -103,11 +110,30 @@ export default function Index() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       clearTimeout(timer);
+      clearInterval(phraseTimer);
     };
   }, [loading]);
 
   return (
     <section className="relative">
+      {loading && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-white/80 backdrop-blur-sm">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute left-1/2 top-1/3 -translate-x-1/2 h-80 w-80 rounded-full bg-teal-200 blur-3xl opacity-50 animate-heartbeat" />
+            <div className="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full bg-sky-200 blur-3xl opacity-50 animate-heartbeat [animation-delay:0.4s]" />
+          </div>
+          <div className="flex flex-col items-center">
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-teal-300 to-sky-300 blur-2xl opacity-40 animate-pulse" />
+              <CircularProgress value={progress} size={200} />
+            </div>
+            <div className="mt-6 text-center">
+              <div className="text-xs uppercase tracking-widest text-teal-700">AI Analyzing</div>
+              <div className="mt-1 text-lg font-medium text-slate-700" aria-live="polite">{phrases[phraseIndex]}</div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="absolute inset-x-0 -top-24 -z-10 blur-3xl opacity-60">
         <div className="mx-auto h-56 w-11/12 max-w-5xl bg-gradient-to-r from-teal-200 to-sky-200 rounded-full" />
       </div>
