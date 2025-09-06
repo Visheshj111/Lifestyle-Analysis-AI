@@ -266,6 +266,9 @@ export default function Index() {
           </Card>
         </div>
       </div>
+      <div className="-mt-6 pb-10 text-center">
+        <a href="https://buymeacoffee.com/visheshjangid" target="_blank" rel="noopener noreferrer" className="text-teal-700 hover:text-teal-800 underline underline-offset-4">Buy me a coffee</a>
+      </div>
     </section>
   );
 }
