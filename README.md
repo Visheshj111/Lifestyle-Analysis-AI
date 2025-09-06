@@ -1,6 +1,6 @@
 **Lifestyle Health Score App**
 
-A web app that transforms your daily habits into a simple lifestyle score, with honest feedback and practical tips powered by OpenAI.
+A web app that transforms your daily habits into a simple lifestyle score, with honest feedback and practical tips using AI
 
 **Features**
 
