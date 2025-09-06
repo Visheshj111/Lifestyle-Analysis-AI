@@ -253,6 +253,32 @@ export default function Index() {
                     ) : (
                       <p className="mt-2 text-slate-600 max-w-sm">Hit calculate to see your personalized lifestyle score.</p>
                     )}
+
+                    {!loading && (
+                      <div className="mt-8 w-full max-w-md text-left">
+                        <div className="mb-2 text-sm font-medium text-slate-700">Your lifestyle score this week</div>
+                        <HistorySparkline
+                          values={(() => {
+                            const oneWeek = 7 * 24 * 60 * 60 * 1000;
+                            const now = Date.now();
+                            const weekly = history.filter((h) => now - h.t <= oneWeek).map((h) => h.s);
+                            if (weekly.length === 0) return [0];
+                            return weekly;
+                          })()}
+                        />
+                        <div className="mt-2 text-xs text-slate-500">Only anonymous scores are stored locally on your device.</div>
+                      </div>
+                    )}
+
+                    {!loading && submitted && (
+                      <div className="mt-6 flex w-full max-w-md flex-wrap items-center gap-2">
+                        <span className="text-sm font-medium text-slate-700">Badges:</span>
+                        {checked["water"] && <span className="rounded-full bg-teal-100 text-teal-800 px-2 py-0.5 text-xs">Hydration Hero</span>}
+                        {checked["sleep"] && <span className="rounded-full bg-sky-100 text-sky-800 px-2 py-0.5 text-xs">Sleep Master</span>}
+                        {checked["screen"] && <span className="rounded-full bg-emerald-100 text-emerald-800 px-2 py-0.5 text-xs">Screen‑time Slayer</span>}
+                        {(checked["exercise"] || checked["breaks"]) && <span className="rounded-full bg-lime-100 text-lime-800 px-2 py-0.5 text-xs">Move More</span>}
+                      </div>
+                    )}
                   </>
                 )}
 
