@@ -8,7 +8,7 @@ export default function SiteLayout() {
     if (stored === "dark") el.classList.add("dark");
   }
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-sky-50 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-sky-50 to-white dark:from-[#0b132b] dark:via-[#0e1a3a] dark:to-[#0b132b]">
       <header className={cn("sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b") }>
         <div className="container mx-auto flex items-center justify-between py-4">
           <Link to="/" className="inline-flex items-center gap-2">
