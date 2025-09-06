@@ -16,9 +16,9 @@ export default function SiteLayout() {
               <span className="absolute inset-0 rounded-full bg-gradient-to-br from-teal-400 to-sky-400 animate-pulse" />
               <span className="relative h-4 w-4 rounded-full bg-white" />
             </span>
-            <span className="text-lg font-semibold tracking-tight text-teal-900">Lifestyle Score</span>
+            <span className="text-lg font-semibold tracking-tight text-teal-900 dark:text-teal-200">Lifestyle Score</span>
           </Link>
-          <nav className="flex items-center gap-4 text-sm text-slate-600">
+          <nav className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-300">
             <a href="#how-it-works" className="hover:text-teal-700 transition-colors">How it works</a>
             <button
               aria-label="Toggle dark mode"
@@ -27,7 +27,7 @@ export default function SiteLayout() {
                 const isDark = el.classList.toggle("dark");
                 localStorage.setItem("theme", isDark ? "dark" : "light");
               }}
-              className="rounded-md border px-2 py-1 text-xs text-slate-600 hover:bg-slate-100"
+              className="rounded-md border px-2 py-1 text-xs text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 dark:border-slate-700"
             >
               Theme
             </button>
