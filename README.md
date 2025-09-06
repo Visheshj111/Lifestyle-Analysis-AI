@@ -18,12 +18,12 @@ A web app that transforms your daily habits into a simple lifestyle score, with 
 
 **How It Works**
 
-Users select their daily habits.
+1. Users select their daily habits.
 
-The app sends the data securely to the backend.
+2. The app sends the data securely to the backend.
 
-The backend connects with OpenAI API to analyze habits.
+3. The backend connects with OpenAI API to analyze habits.
 
-A score, summary, and tailored tips are generated.
+4. A score, summary, and tailored tips are generated.
 
-The UI displays results with engaging visuals.
+5. The UI displays results with engaging visuals.
