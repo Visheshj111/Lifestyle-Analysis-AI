@@ -2,8 +2,13 @@ import { Link, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export default function SiteLayout() {
+  if (typeof document !== "undefined") {
+    const stored = localStorage.getItem("theme");
+    const el = document.documentElement;
+    if (stored === "dark") el.classList.add("dark");
+  }
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-sky-50 to-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-sky-50 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
       <header className={cn("sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b") }>
         <div className="container mx-auto flex items-center justify-between py-4">
           <Link to="/" className="inline-flex items-center gap-2">
