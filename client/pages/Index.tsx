@@ -34,6 +34,16 @@ export default function Index() {
   const [ai, setAi] = useState<AnalyzeResponse | null>(null);
   const [aiError, setAiError] = useState<string | null>(null);
   const [freeText, setFreeText] = useState("");
+  const [goal, setGoal] = useState<"energy" | "focus" | "fitness">("energy");
+  const [history, setHistory] = useState<{ t: number; s: number }[]>(() => {
+    try {
+      const raw = localStorage.getItem("ls-history");
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [explain, setExplain] = useState<Record<number, { loading: boolean; text?: string; error?: string }>>({});
   const phrases = ["Checking your habits…", "Measuring balance…", "Calculating score…"] as const;
   const [phraseIndex, setPhraseIndex] = useState(0);
 
@@ -95,7 +105,7 @@ export default function Index() {
     fetch("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ selected, input: freeText.trim() || undefined }),
+      body: JSON.stringify({ selected, input: freeText.trim() || undefined, goal }),
     })
       .then(async (r) => {
         if (!r.ok) throw new Error(await r.text());
@@ -107,6 +117,12 @@ export default function Index() {
     const timer = setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
+      const effective = (ai?.score ?? Math.round((Object.values(checked).filter(Boolean).length / HABITS.length) * 100));
+      if (!Number.isNaN(effective)) {
+        const next = [...history, { t: Date.now(), s: effective }].slice(-20);
+        setHistory(next);
+        try { localStorage.setItem("ls-history", JSON.stringify(next)); } catch {}
+      }
     }, duration + 100);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
