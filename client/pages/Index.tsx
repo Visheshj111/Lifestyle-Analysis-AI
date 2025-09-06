@@ -226,7 +226,7 @@ export default function Index() {
                       onChange={(e) => setFreeText(e.target.value)}
                       placeholder="Describe your habits or concerns (e.g., shift work, new parent, recovering from injury)…"
                       rows={3}
-                      className="flex-1 resize-y rounded-md border p-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                      className="flex-1 resize-y rounded-xl border p-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:bg-white/5 dark:border-white/10 dark:text-slate-200 hover-glow-teal"
                     />
                     <Button type="button" className="bg-teal-600 hover:bg-teal-700" disabled={loading || !freeText.trim()} onClick={() => { setSubmitted(false); setProgress(0); setAi(null); setAiError(null); setLoading(true); }}>
                       Send
