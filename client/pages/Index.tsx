@@ -134,7 +134,7 @@ export default function Index() {
   return (
     <section className="relative">
       {loading && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-white/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/70 backdrop-blur-sm">
           <div className="absolute inset-0 -z-10">
             <div className="absolute left-1/2 top-1/3 -translate-x-1/2 h-80 w-80 rounded-full bg-teal-200 blur-3xl opacity-50 animate-heartbeat" />
             <div className="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full bg-sky-200 blur-3xl opacity-50 animate-heartbeat [animation-delay:0.4s]" />
