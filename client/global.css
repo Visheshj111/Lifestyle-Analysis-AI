@@ -110,19 +110,38 @@
 
 @layer utilities {
   @keyframes orbit {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
   .animate-orbit {
     animation: orbit 1.6s linear infinite;
   }
   @keyframes heartbeat {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    25% { transform: scale(1.02); opacity: 1; }
-    50% { transform: scale(1); opacity: 0.95; }
-    75% { transform: scale(1.03); opacity: 1; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    25% {
+      transform: scale(1.02);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 0.95;
+    }
+    75% {
+      transform: scale(1.03);
+      opacity: 1;
+    }
   }
-  .hover-glow-teal:hover { box-shadow: 0 0 0 4px rgba(20,184,166,0.35); }
-  .hover-glow-lime:hover { box-shadow: 0 0 0 4px rgba(163,230,53,0.35); }
+  .hover-glow-teal:hover {
+    box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.35);
+  }
+  .hover-glow-lime:hover {
+    box-shadow: 0 0 0 4px rgba(163, 230, 53, 0.35);
+  }
   .animate-heartbeat {
     animation: heartbeat 1.6s ease-in-out infinite;
   }

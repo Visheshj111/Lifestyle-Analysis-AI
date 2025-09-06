@@ -16,19 +16,27 @@ export const explainHandler: RequestHandler = async (req, res) => {
   if (!parse.success) return res.status(400).json({ error: "Invalid body" });
   const { tip, selected, goal } = parse.data;
 
-  const key = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
-  if (!key) return res.status(500).json({ error: "OPENAI_API_KEY is not configured" });
+  const key =
+    process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
+  if (!key)
+    return res.status(500).json({ error: "OPENAI_API_KEY is not configured" });
 
   try {
     const r = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${key}`,
+      },
       body: JSON.stringify({
         model: "gpt-4o-mini",
         temperature: 0.4,
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: `Explain why this matters: ${tip}\nUser goal: ${goal ?? ""}\nChecked habits: ${JSON.stringify(selected)}\nReply with 1–3 sentences.` },
+          {
+            role: "user",
+            content: `Explain why this matters: ${tip}\nUser goal: ${goal ?? ""}\nChecked habits: ${JSON.stringify(selected)}\nReply with 1–3 sentences.`,
+          },
         ],
       }),
     });

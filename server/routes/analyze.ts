@@ -21,7 +21,8 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
   }
   const { selected, input, goal } = parse.data;
 
-  const key = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
+  const key =
+    process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
   if (!key) {
     return res.status(500).json({ error: "OPENAI_API_KEY is not configured" });
   }
@@ -43,10 +44,7 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
       body: JSON.stringify({
         model: "gpt-4o-mini",
         temperature: 0.3,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...userContent,
-        ],
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...userContent],
         response_format: { type: "json_object" },
       }),
     });
@@ -62,12 +60,22 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
     try {
       parsed = JSON.parse(raw);
     } catch {
-      parsed = { score: 50, message: "Partial analysis available", tips: ["Keep consistent sleep", "Hydrate through the day", "Add short walks"] };
+      parsed = {
+        score: 50,
+        message: "Partial analysis available",
+        tips: [
+          "Keep consistent sleep",
+          "Hydrate through the day",
+          "Add short walks",
+        ],
+      };
     }
 
     // Clamp & sanitize
     const score = Math.max(0, Math.min(100, Number(parsed.score)) || 0);
-    const message = String(parsed.message || "Here's your honest snapshot").slice(0, 120);
+    const message = String(
+      parsed.message || "Here's your honest snapshot",
+    ).slice(0, 120);
     const tips = Array.isArray(parsed.tips)
       ? parsed.tips.map(String).filter(Boolean).slice(0, 5)
       : ["Prioritize sleep", "Stay hydrated", "Move daily"];
