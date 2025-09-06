@@ -5,6 +5,7 @@ import type { AnalyzeResponse } from "@shared/api";
 const BodySchema = z.object({
   selected: z.array(z.string()).max(100),
   input: z.string().max(2000).optional(),
+  goal: z.enum(["energy", "focus", "fitness"]).optional(),
 });
 
 const SYSTEM_PROMPT = `You are a professional lifestyle health analyst. Produce realistic, conservative, evidence-informed feedback.
