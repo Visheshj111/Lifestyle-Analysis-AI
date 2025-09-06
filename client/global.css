@@ -107,3 +107,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes orbit {
+    to { transform: rotate(360deg); }
+  }
+  .animate-orbit {
+    animation: orbit 1.6s linear infinite;
+  }
+}
