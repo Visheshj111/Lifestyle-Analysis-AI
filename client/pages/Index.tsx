@@ -154,6 +154,18 @@ export default function Index() {
           <Card className="mt-8">
             <CardContent className="pt-6">
               <form onSubmit={onSubmit} className="space-y-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <label className="text-sm text-slate-600">Your goal</label>
+                  <select
+                    value={goal}
+                    onChange={(e) => setGoal(e.target.value as any)}
+                    className="rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                  >
+                    <option value="energy">More energy</option>
+                    <option value="focus">Better focus</option>
+                    <option value="fitness">Improve fitness</option>
+                  </select>
+                </div>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {HABITS.map((habit) => (
                     <li key={habit.id} className="flex items-start gap-3 rounded-md border p-3 bg-white/60">
