@@ -1,0 +1,31 @@
+import { Link, Outlet } from "react-router-dom";
+import { cn } from "@/lib/utils";
+
+export default function SiteLayout() {
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-sky-50 to-white">
+      <header className={cn("sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b") }>
+        <div className="container mx-auto flex items-center justify-between py-4">
+          <Link to="/" className="inline-flex items-center gap-2">
+            <span className="relative inline-flex h-6 w-6 items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-gradient-to-br from-teal-400 to-sky-400 animate-pulse" />
+              <span className="relative h-4 w-4 rounded-full bg-white" />
+            </span>
+            <span className="text-lg font-semibold tracking-tight text-teal-900">Lifestyle Score</span>
+          </Link>
+          <nav className="text-sm text-slate-600">
+            <a href="#how-it-works" className="hover:text-teal-700 transition-colors">How it works</a>
+          </nav>
+        </div>
+      </header>
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <footer className="border-t">
+        <div className="container mx-auto py-6 text-center text-sm text-slate-500">
+          © {new Date().getFullYear()} Lifestyle Score. Stay well.
+        </div>
+      </footer>
+    </div>
+  );
+}
