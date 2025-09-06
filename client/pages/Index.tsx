@@ -33,6 +33,7 @@ export default function Index() {
   const rafRef = useRef<number | null>(null);
   const [ai, setAi] = useState<AnalyzeResponse | null>(null);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [freeText, setFreeText] = useState("");
 
   const score = useMemo(() => {
     const total = HABITS.length;
@@ -87,7 +88,7 @@ export default function Index() {
     fetch("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ selected }),
+      body: JSON.stringify({ selected, input: freeText.trim() || undefined }),
     })
       .then(async (r) => {
         if (!r.ok) throw new Error(await r.text());
@@ -162,6 +163,23 @@ export default function Index() {
                     </Button>
                   )}
                 </div>
+
+                <div className="mt-6 border-t pt-6">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Ask the AI directly</label>
+                  <div className="flex items-end gap-3">
+                    <textarea
+                      value={freeText}
+                      onChange={(e) => setFreeText(e.target.value)}
+                      placeholder="Describe your habits or concerns (e.g., shift work, new parent, recovering from injury)…"
+                      rows={3}
+                      className="flex-1 resize-y rounded-md border p-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                    />
+                    <Button type="button" className="bg-teal-600 hover:bg-teal-700" disabled={loading || !freeText.trim()} onClick={() => { setSubmitted(false); setProgress(0); setAi(null); setAiError(null); setLoading(true); }}>
+                      Send
+                    </Button>
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500">Your message is combined with the checked habits for a tailored, honest analysis.</p>
+                </div>
               </form>
             </CardContent>
           </Card>
@@ -173,19 +191,19 @@ export default function Index() {
               <div className="flex flex-col items-center text-center">
                 {loading ? (
                   <div className="w-full max-w-md" aria-busy="true">
-                    <div className="h-3 w-full overflow-hidden rounded-full bg-teal-100">
-                      <div
-                        className="h-full bg-gradient-to-r from-teal-500 to-sky-500"
-                        style={{ width: `${progress}%`, transition: "width 120ms linear" }}
-                      />
-                    </div>
-                    <div className="mt-4 text-slate-600 flex items-center justify-center gap-2">
-                      <span>Analyzing your lifestyle habits...</span>
-                      <span className="inline-flex items-center gap-1">
-                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:-0.2s]" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce" />
-                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:0.2s]" />
-                      </span>
+                    <div className="relative mx-auto h-40 w-40">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-teal-400 via-sky-400 to-teal-500 opacity-80 animate-spin [animation-duration:1.6s]" />
+                      <div className="absolute inset-[6px] rounded-full bg-white" />
+                      <div className="absolute inset-0">
+                        <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 rounded-full bg-sky-500 shadow-sm animate-orbit" />
+                      </div>
+                      <div className="absolute inset-0 grid place-items-center">
+                        <div className="text-center">
+                          <div className="text-xs uppercase tracking-wide text-slate-500">AI</div>
+                          <div className="text-sm font-medium text-slate-700">Analyzing…</div>
+                          <div className="mt-1 text-xs text-slate-500">{progress}%</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
