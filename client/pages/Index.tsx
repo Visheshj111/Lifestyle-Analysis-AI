@@ -113,6 +113,7 @@ export default function Index() {
                         onCheckedChange={(v) =>
                           setChecked((c) => ({ ...c, [habit.id]: Boolean(v) }))
                         }
+                        disabled={loading}
                         className="mt-1"
                       />
                       <label htmlFor={habit.id} className="select-none text-sm leading-6 text-slate-700">
@@ -122,8 +123,15 @@ export default function Index() {
                   ))}
                 </ul>
                 <div className="flex flex-wrap items-center gap-3 pt-2">
-                  <Button type="submit" className="bg-teal-600 hover:bg-teal-700">
-                    Calculate My Lifestyle Score
+                  <Button type="submit" disabled={loading} className="bg-teal-600 hover:bg-teal-700">
+                    {loading ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="4"/></svg>
+                        Calculating...
+                      </span>
+                    ) : (
+                      "Calculate My Lifestyle Score"
+                    )}
                   </Button>
                   {submitted && (
                     <Button type="button" variant="secondary" onClick={() => setChecked({})}>
@@ -140,15 +148,36 @@ export default function Index() {
           <Card className="w-full bg-white/70 backdrop-blur">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
-                <CircularProgress value={submitted ? score : 0} />
-                <div className="mt-4 text-2xl font-semibold text-teal-900">{submitted ? message : "Your score awaits"}</div>
-                {submitted ? (
-                  <p className="mt-2 text-slate-600 max-w-sm">Based on your selections, here are quick tips to improve your score.</p>
+                {loading ? (
+                  <div className="w-full max-w-md" aria-busy="true">
+                    <div className="h-3 w-full overflow-hidden rounded-full bg-teal-100">
+                      <div
+                        className="h-full bg-gradient-to-r from-teal-500 to-sky-500"
+                        style={{ width: `${progress}%`, transition: "width 120ms linear" }}
+                      />
+                    </div>
+                    <div className="mt-4 text-slate-600 flex items-center justify-center gap-2">
+                      <span>Analyzing your lifestyle habits...</span>
+                      <span className="inline-flex items-center gap-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:-0.2s]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-teal-500 animate-bounce [animation-delay:0.2s]" />
+                      </span>
+                    </div>
+                  </div>
                 ) : (
-                  <p className="mt-2 text-slate-600 max-w-sm">Hit calculate to see your personalized lifestyle score.</p>
+                  <>
+                    <CircularProgress value={submitted ? score : 0} />
+                    <div className="mt-4 text-2xl font-semibold text-teal-900">{submitted ? message : "Your score awaits"}</div>
+                    {submitted ? (
+                      <p className="mt-2 text-slate-600 max-w-sm">Based on your selections, here are quick tips to improve your score.</p>
+                    ) : (
+                      <p className="mt-2 text-slate-600 max-w-sm">Hit calculate to see your personalized lifestyle score.</p>
+                    )}
+                  </>
                 )}
 
-                {submitted && (
+                {submitted && !loading && (
                   <ul className="mt-5 w-full max-w-md text-left space-y-3">
                     {tips.length === 0 ? (
                       <li className="rounded-md border bg-teal-50/70 p-3 text-teal-800">You're doing great—keep it up and maintain consistency!</li>
@@ -160,7 +189,7 @@ export default function Index() {
                   </ul>
                 )}
 
-                {submitted && (
+                {submitted && !loading && (
                   <div className="mt-6 flex items-center gap-3">
                     <Button onClick={onShare} className="bg-sky-600 hover:bg-sky-700">Share my score</Button>
                     <Button variant="ghost" onClick={() => setSubmitted(false)}>Edit answers</Button>
