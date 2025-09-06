@@ -145,8 +145,8 @@ export default function Index() {
               <CircularProgress value={progress} size={200} />
             </div>
             <div className="mt-6 text-center">
-              <div className="text-xs uppercase tracking-widest text-teal-700">AI Analyzing</div>
-              <div className="mt-1 text-lg font-medium text-slate-700" aria-live="polite">{phrases[phraseIndex]}</div>
+              <div className="text-xs uppercase tracking-widest text-teal-700 dark:text-teal-300">AI Analyzing</div>
+              <div className="mt-1 text-lg font-medium text-slate-700 dark:text-slate-200" aria-live="polite">{phrases[phraseIndex]}</div>
             </div>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function Index() {
 
       <div className="container mx-auto grid gap-8 md:grid-cols-2 py-14 md:py-20">
         <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-teal-900">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-teal-900 dark:text-teal-100">
             Check Your Lifestyle Score
           </h1>
           <p className="mt-3 text-lg text-slate-600 max-w-prose">
@@ -263,7 +263,7 @@ export default function Index() {
                 ) : (
                   <>
                     <CircularProgress value={submitted ? (ai?.score ?? score) : 0} />
-                    <div className="mt-4 text-2xl font-semibold text-teal-900">{submitted ? (ai?.message ?? message) : "Your score awaits"}</div>
+                    <div className="mt-4 text-2xl font-semibold text-teal-900 dark:text-teal-100">{submitted ? (ai?.message ?? message) : "Your score awaits"}</div>
                     {submitted ? (
                       <p className="mt-2 text-slate-600 max-w-sm">{aiError ? "Showing local estimate due to AI unavailability." : "Based on your selections, here are quick tips to improve your score."}</p>
                     ) : (
