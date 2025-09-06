@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CircularProgress from "@/components/CircularProgress";
+import type { AnalyzeResponse } from "@shared/api";
 
 interface HabitOption {
   id: string;
@@ -29,6 +30,8 @@ export default function Index() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
+  const [ai, setAi] = useState<AnalyzeResponse | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   const score = useMemo(() => {
     const total = HABITS.length;
@@ -47,11 +50,15 @@ export default function Index() {
     e.preventDefault();
     setSubmitted(false);
     setProgress(0);
+    setAi(null);
+    setAiError(null);
     setLoading(true);
   };
 
   const onShare = async () => {
-    const text = `My Lifestyle Score is ${score}%. ${message}`;
+    const effectiveScore = ai?.score ?? score;
+    const effectiveMessage = ai?.message ?? message;
+    const text = `My Lifestyle Score is ${effectiveScore}%. ${effectiveMessage}`;
     const url = window.location.origin;
     try {
       if (navigator.share) {
@@ -66,13 +73,28 @@ export default function Index() {
   useEffect(() => {
     if (!loading) return;
     const start = performance.now();
-    const duration = 2400; // 2.4s
+    const duration = 2400; // 2.4s minimum analyzing time
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / duration);
       setProgress(Math.round(p * 100));
       if (p < 1) rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
+
+    // kick off AI call
+    const selected = Object.keys(checked).filter((k) => checked[k]);
+    fetch("/api/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ selected }),
+    })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(await r.text());
+        return (await r.json()) as AnalyzeResponse;
+      })
+      .then((data) => setAi(data))
+      .catch(() => setAiError("AI analysis unavailable"));
+
     const timer = setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
@@ -167,10 +189,10 @@ export default function Index() {
                   </div>
                 ) : (
                   <>
-                    <CircularProgress value={submitted ? score : 0} />
-                    <div className="mt-4 text-2xl font-semibold text-teal-900">{submitted ? message : "Your score awaits"}</div>
+                    <CircularProgress value={submitted ? (ai?.score ?? score) : 0} />
+                    <div className="mt-4 text-2xl font-semibold text-teal-900">{submitted ? (ai?.message ?? message) : "Your score awaits"}</div>
                     {submitted ? (
-                      <p className="mt-2 text-slate-600 max-w-sm">Based on your selections, here are quick tips to improve your score.</p>
+                      <p className="mt-2 text-slate-600 max-w-sm">{aiError ? "Showing local estimate due to AI unavailability." : "Based on your selections, here are quick tips to improve your score."}</p>
                     ) : (
                       <p className="mt-2 text-slate-600 max-w-sm">Hit calculate to see your personalized lifestyle score.</p>
                     )}
@@ -179,10 +201,10 @@ export default function Index() {
 
                 {submitted && !loading && (
                   <ul className="mt-5 w-full max-w-md text-left space-y-3">
-                    {tips.length === 0 ? (
+                    {(ai?.tips ?? tips).length === 0 ? (
                       <li className="rounded-md border bg-teal-50/70 p-3 text-teal-800">You're doing great—keep it up and maintain consistency!</li>
                     ) : (
-                      tips.map((t, i) => (
+                      (ai?.tips ?? tips).map((t, i) => (
                         <li key={i} className="rounded-md border p-3 bg-sky-50/70 text-slate-700">• {t}</li>
                       ))
                     )}
