@@ -240,7 +240,7 @@ export default function Index() {
         </div>
 
         <div className="flex items-stretch">
-          <Card className="w-full bg-white/70 backdrop-blur">
+          <Card className="w-full bg-white/70 backdrop-blur dark:bg-white/5 dark:border-white/10 dark:backdrop-blur-md dark:rounded-2xl">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 {loading ? (
