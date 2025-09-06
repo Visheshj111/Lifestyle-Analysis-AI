@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CircularProgress from "@/components/CircularProgress";
 import type { AnalyzeResponse } from "@shared/api";
+import { useRef } from "react";
 
 interface HabitOption {
   id: string;
