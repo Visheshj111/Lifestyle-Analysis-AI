@@ -30,7 +30,7 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
     const userContent = [
       {
         role: "user",
-        content: `Given these positive habits (checked): ${JSON.stringify(selected)}\nUser free-text (may include habits or concerns): ${input ?? ""}\nReturn JSON only.`,
+        content: `Given these positive habits (checked): ${JSON.stringify(selected)}\nUser free-text (may include habits or concerns): ${input ?? ""}\nUser goal (opt): ${goal ?? ""}\nTailor tips toward the goal when reasonable. Return JSON only.`,
       },
     ];
 
