@@ -14,10 +14,21 @@ export interface DemoResponse {
 export interface AnalyzeRequest {
   selected: string[];
   input?: string;
+  goal?: "energy" | "focus" | "fitness";
 }
 
 export interface AnalyzeResponse {
   score: number; // 0-100
   message: string; // short supportive but honest
   tips: string[]; // 0-5 short actionable tips
+}
+
+export interface ExplainRequest {
+  tip: string;
+  selected: string[];
+  goal?: "energy" | "focus" | "fitness";
+}
+
+export interface ExplainResponse {
+  explanation: string; // 1-3 sentences concise rationale
 }
