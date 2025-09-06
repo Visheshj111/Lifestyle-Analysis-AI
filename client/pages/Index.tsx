@@ -135,18 +135,18 @@ export default function Index() {
     <section className="relative">
       {loading && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/70 backdrop-blur-sm">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute left-1/2 top-1/3 -translate-x-1/2 h-80 w-80 rounded-full bg-teal-200 blur-3xl opacity-50 animate-heartbeat" />
-            <div className="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full bg-sky-200 blur-3xl opacity-50 animate-heartbeat [animation-delay:0.4s]" />
+          <div className="absolute inset-0 -z-10 pointer-events-none">
+            <div className="absolute left-1/2 top-1/3 -translate-x-1/2 h-80 w-80 rounded-full from-teal-500/25 to-sky-500/25 bg-gradient-to-tr blur-3xl opacity-70 animate-heartbeat" />
+            <div className="absolute right-1/4 bottom-1/4 h-72 w-72 rounded-full from-sky-500/20 to-teal-500/20 bg-gradient-to-tr blur-3xl opacity-60 animate-heartbeat [animation-delay:0.4s]" />
           </div>
           <div className="flex flex-col items-center">
             <div className="relative">
-              <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-teal-300 to-sky-300 blur-2xl opacity-40 animate-pulse" />
+              <div className="absolute -inset-6 rounded-full bg-gradient-to-tr from-teal-400/40 to-sky-400/40 blur-2xl opacity-70" />
               <CircularProgress value={progress} size={200} />
             </div>
             <div className="mt-6 text-center">
               <div className="text-xs uppercase tracking-widest text-teal-700 dark:text-teal-300">AI Analyzing</div>
-              <div className="mt-1 text-lg font-medium text-slate-700 dark:text-slate-200" aria-live="polite">{phrases[phraseIndex]}</div>
+              <div className="mt-1 text-lg font-medium text-slate-700 dark:text-sky-300" aria-live="polite">{phrases[phraseIndex]}</div>
             </div>
           </div>
         </div>
