@@ -19,7 +19,7 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
   }
   const { selected } = parse.data;
 
-  const key = process.env.OPENAI_API_KEY;
+  const key = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
   if (!key) {
     return res.status(500).json({ error: "OPENAI_API_KEY is not configured" });
   }
