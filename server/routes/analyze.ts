@@ -74,6 +74,8 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
     res.json(response);
   } catch (err) {
     console.error("/api/analyze failed", err);
-    res.status(500).json({ error: "Failed to analyze" });
+    const body: any = { error: "Failed to analyze" };
+    if (process.env.NODE_ENV !== "production") body.detail = String(err);
+    res.status(500).json(body);
   }
 };
