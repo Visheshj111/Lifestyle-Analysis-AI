@@ -250,7 +250,32 @@ export default function Index() {
                       <li className="rounded-md border bg-teal-50/70 p-3 text-teal-800">You're doing great—keep it up and maintain consistency!</li>
                     ) : (
                       (ai?.tips ?? tips).map((t, i) => (
-                        <li key={i} className="rounded-md border p-3 bg-sky-50/70 text-slate-700">• {t}</li>
+                        <li key={i} className="rounded-md border p-3 bg-sky-50/70 text-slate-700">
+                          <button
+                            type="button"
+                            className="text-left w-full"
+                            onClick={async () => {
+                              if (explain[i]?.loading) return;
+                              if (explain[i]?.text) return setExplain((m) => ({ ...m, [i]: { ...m[i], text: undefined } }));
+                              setExplain((m) => ({ ...m, [i]: { loading: true } }));
+                              try {
+                                const selected = Object.keys(checked).filter((k) => checked[k]);
+                                const r = await fetch("/api/explain", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tip: t, selected, goal }) });
+                                if (!r.ok) throw new Error(await r.text());
+                                const data = (await r.json()) as { explanation: string };
+                                setExplain((m) => ({ ...m, [i]: { loading: false, text: data.explanation } }));
+                              } catch (e) {
+                                setExplain((m) => ({ ...m, [i]: { loading: false, error: "Could not explain" } }));
+                              }
+                            }}
+                          >
+                            • {t}
+                            {explain[i]?.loading && <span className="ml-2 text-xs text-slate-500">Explaining…</span>}
+                          </button>
+                          {explain[i]?.text && (
+                            <p className="mt-2 text-xs text-slate-600">{explain[i]?.text}</p>
+                          )}
+                        </li>
                       ))
                     )}
                   </ul>
