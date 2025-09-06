@@ -37,13 +37,19 @@ export default function CircularProgress({ value, size = 160, strokeWidth = 12, 
   const dashOffset = circumference * (1 - display / 100);
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-sm">
-      <circle cx={size / 2} cy={size / 2} r={radius} stroke="#e6f7f5" strokeWidth={strokeWidth} fill="none" />
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="drop-shadow-[0_0_20px_rgba(20,184,166,0.25)]">
+      <defs>
+        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#3dd5f3" />
+          <stop offset="100%" stopColor="#a3e635" />
+        </linearGradient>
+      </defs>
+      <circle cx={size / 2} cy={size / 2} r={radius} stroke="rgba(255,255,255,0.14)" strokeWidth={strokeWidth} fill="none" />
       <circle
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke={color}
+        stroke="url(#progressGradient)"
         strokeWidth={strokeWidth}
         fill="none"
         strokeLinecap="round"
@@ -51,7 +57,7 @@ export default function CircularProgress({ value, size = 160, strokeWidth = 12, 
         strokeDashoffset={dashOffset}
         style={{ transition: "stroke-dashoffset 200ms linear" }}
       />
-      <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" className="fill-teal-700" style={{ fontSize: size * 0.22, fontWeight: 700 }}>
+      <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" className="fill-teal-700 dark:fill-teal-200" style={{ fontSize: size * 0.22, fontWeight: 700 }}>
         {Math.round(display)}%
       </text>
     </svg>
