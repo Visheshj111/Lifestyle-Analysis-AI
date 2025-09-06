@@ -13,8 +13,19 @@ export default function SiteLayout() {
             </span>
             <span className="text-lg font-semibold tracking-tight text-teal-900">Lifestyle Score</span>
           </Link>
-          <nav className="text-sm text-slate-600">
+          <nav className="flex items-center gap-4 text-sm text-slate-600">
             <a href="#how-it-works" className="hover:text-teal-700 transition-colors">How it works</a>
+            <button
+              aria-label="Toggle dark mode"
+              onClick={() => {
+                const el = document.documentElement;
+                const isDark = el.classList.toggle("dark");
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+              }}
+              className="rounded-md border px-2 py-1 text-xs text-slate-600 hover:bg-slate-100"
+            >
+              Theme
+            </button>
           </nav>
         </div>
       </header>
