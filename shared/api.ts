@@ -13,6 +13,7 @@ export interface DemoResponse {
 
 export interface AnalyzeRequest {
   selected: string[];
+  input?: string;
 }
 
 export interface AnalyzeResponse {
