@@ -167,7 +167,7 @@ export default function Index() {
             Check the habits you follow. Your score updates when you calculate.
           </div>
 
-          <Card className="mt-8">
+          <Card className="mt-8 dark:bg-white/5 dark:border-white/10 dark:backdrop-blur-md dark:rounded-2xl">
             <CardContent className="pt-6">
               <form onSubmit={onSubmit} className="space-y-5">
                 <div className="flex flex-wrap items-center gap-3">
