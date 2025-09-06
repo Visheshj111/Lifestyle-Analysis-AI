@@ -21,6 +21,7 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.post("/api/analyze", analyzeHandler);
+  app.post("/api/explain", explainHandler);
 
   return app;
 }
