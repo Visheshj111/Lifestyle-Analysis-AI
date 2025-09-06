@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import CircularProgress from "@/components/CircularProgress";
 import HistorySparkline from "@/components/HistorySparkline";
 import type { AnalyzeResponse } from "@shared/api";
+import { cn } from "@/lib/utils";
 
 interface HabitOption {
   id: string;
