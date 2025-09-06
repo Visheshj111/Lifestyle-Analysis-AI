@@ -10,3 +10,13 @@
 export interface DemoResponse {
   message: string;
 }
+
+export interface AnalyzeRequest {
+  selected: string[];
+}
+
+export interface AnalyzeResponse {
+  score: number; // 0-100
+  message: string; // short supportive but honest
+  tips: string[]; // 0-5 short actionable tips
+}
