@@ -19,7 +19,7 @@ export const analyzeHandler: RequestHandler = async (req, res) => {
   if (!parse.success) {
     return res.status(400).json({ error: "Invalid body" });
   }
-  const { selected, input } = parse.data;
+  const { selected, input, goal } = parse.data;
 
   const key = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY || process.env.OPENAI;
   if (!key) {
