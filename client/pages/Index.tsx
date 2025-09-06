@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CircularProgress from "@/components/CircularProgress";
+import HistorySparkline from "@/components/HistorySparkline";
 import type { AnalyzeResponse } from "@shared/api";
 
 interface HabitOption {
