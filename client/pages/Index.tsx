@@ -26,6 +26,9 @@ const HABITS: HabitOption[] = [
 export default function Index() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const rafRef = useRef<number | null>(null);
 
   const score = useMemo(() => {
     const total = HABITS.length;
@@ -42,7 +45,9 @@ export default function Index() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitted(false);
+    setProgress(0);
+    setLoading(true);
   };
 
   const onShare = async () => {
@@ -57,6 +62,26 @@ export default function Index() {
       }
     } catch {}
   };
+
+  useEffect(() => {
+    if (!loading) return;
+    const start = performance.now();
+    const duration = 2400; // 2.4s
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / duration);
+      setProgress(Math.round(p * 100));
+      if (p < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    const timer = setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, duration + 100);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      clearTimeout(timer);
+    };
+  }, [loading]);
 
   return (
     <section className="relative">
