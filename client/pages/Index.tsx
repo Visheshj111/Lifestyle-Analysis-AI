@@ -175,7 +175,7 @@ export default function Index() {
                   <select
                     value={goal}
                     onChange={(e) => setGoal(e.target.value as any)}
-                    className="rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                    className="rounded-lg border bg-white px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 dark:bg-white/5 dark:border-white/10 dark:text-slate-200 hover-glow-teal"
                   >
                     <option value="energy">More energy</option>
                     <option value="focus">Better focus</option>
